@@ -1,0 +1,52 @@
+.container {
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Ensure the container takes full viewport height */
+}
+
+.error {
+  color: red;
+  font-size: 0.875rem; /* Adjust font size as needed */
+  margin-bottom: 10px; /* Add margin to separate from inputs */
+}
+
+.form-container {
+  width: 1000px; /* Adjust width for better form fitting */
+  border-radius: 0.75rem;
+  background-color: rgba(17, 24, 39, 1);
+  padding: 2rem;
+  color: rgba(243, 244, 246, 1);
+}
+
+.title {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+}
+
+input {
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  outline: none;
+  width: 100%; /* Make inputs fill the container width */
+  margin-bottom: 15px; /* Add margin to input containers */
+}
+
+.btn {
+  background-color: hsl(55, 100%, 86%);
+  color: rgb(144, 107, 107);
+  border: none;
+  padding: 10px 20px;
+  font-size: 1rem;
+  cursor: pointer;
+  border-radius: 4px;
+  width: 100%; /* Make buttons fill the container width */
+  margin-bottom: 10px; /* Add margin to separate buttons */
+}
+
+.btn:hover {
+  background-color: wheat;
+}

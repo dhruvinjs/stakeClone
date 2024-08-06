@@ -1,0 +1,102 @@
+<html>
+    <body>
+    <form>
+        <input type="text" class="numm">
+        <br>
+        <input type="submit" id="sub">
+        
+        <p>HINT=<span class="hint"></p>
+        <div class="res">
+            <p>Previous Guesses: <span id="prevGuesses"></span></p>
+
+        <p>Number of Guesses: <span id="remguesses"></span></p>
+        <p id="message"></p>
+        
+<br>
+        <button id="newGame">Play again</button>
+    </div>
+    </form>
+    </body>
+</html>
+    <script>
+        let n= Math.floor(Math.random() * 100 + 1);//RAndom Number variable
+        var chances = 1;//chances are only 10
+        let num = document.querySelector(".numm");
+        let s=document.getElementById("sub");
+        let play=true;
+        let prev=[];
+        let p=document.createElement('p');
+
+        let h=document.querySelector(".hint");
+        if(play===true){
+            s.addEventListener('click',function(e){
+                e.preventDefault();
+                guess = parseInt(num.value);
+                console.log(guess);
+                validate(guess);
+            })
+        }
+        const validate=(guess)=> // validate number range
+        {
+        if(isNaN(guess)){
+            alert("enter a number")
+        }
+           else if(guess<1){
+                displayM("Num should not be less than 1");
+            }
+            else if(guess>100){
+                displayM("num should not be greater than 100");
+            }
+            else{
+                prev.push(guess);
+                            if(chances===11){//exceeding 10 means game over
+                    displayM("game over");
+                    displayM(`Number was ${n}`);
+                    endgame();
+
+                }
+                            else{
+                    cleanguess(guess);//will increment guess
+                    checkGuess(guess);//will check guess
+                }
+            }
+        }
+
+       function checkGuess (guess) {
+      if (guess === n) {
+        displayM("You won!");
+        h.innerHTML = ""; // Clear hint after win
+      } else if (guess < n) {
+        h.innerHTML = "Number is greater than Guess go high";
+      } else if (guess > n) {
+        h.innerHTML = "Number is lower go low";
+      }
+    }
+                
+                
+                const displayM=(message)=>{//will take input form user and display it
+                            document.getElementById("message").innerHTML=message;
+                        }
+               const cleanguess = (guess) => {
+                               num.value = "";
+                               const g = document.getElementById("prevGuesses");
+                               g.innerHTML += `${guess} `; // Add a space after each guess
+                               chances++;
+                               rem = document.getElementById("remguesses");
+                               rem.innerHTML = `${11 - chances}`;
+                             };
+            const endgame=()=>{
+                    num.disabled = true;
+                    s.disabled = true;
+                    p.classList.add('button');
+                    play=false;
+                    newGame();
+                }
+                    const newGame=()=>{
+                    const newGame=document.getElementById("newGame");
+                        newGame.addEventListener("click",()=>{
+                                    reload();
+                                })
+                    
+}
+    </script>

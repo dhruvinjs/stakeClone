@@ -1,0 +1,158 @@
+/* guessnum.css */
+.card-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f0f0f0;
+    padding: 20px;
+  }
+  
+  .title {
+    color: wheat;
+    margin-bottom: 2rem;
+    font-size: 2rem;
+  }
+
+  .form-Container {
+    width: 320px;
+    border-radius: 0.75rem;
+    background-color: rgba(25, 221, 205, 0.944);
+    padding: 2rem;
+    color: rgb(76, 76, 62);
+  }
+
+  .card {
+    width: 100%;
+    max-width: 400px;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    text-align: center;
+  }
+  
+  .card-title {
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  .bet-options {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+    text-align: left;
+  }
+  
+  .bet-options label {
+    display: flex;
+    align-items: center;
+    font-size: 1.2rem;
+    color: #333;
+  }
+  
+  .bet-options input[type="radio"] {
+    margin-right: 10px;
+    cursor: pointer;
+  }
+  
+  .guess-section {
+    margin-bottom: 20px;
+  }
+  
+  .guess-input {
+    width: calc(100% - 22px);
+    padding: 10px;
+    font-size: 1.2rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+  }
+  
+  .hint,
+  .prev-guess,
+  .chances,
+  .money,
+  .result {
+    font-size: 1.2rem;
+    margin: 5px 0;
+    color: #333;
+  }
+  
+  .btn {
+    padding: 10px 20px;
+    font-size: 1.2rem;
+    border: none;
+    border-radius: 5px;
+    background-color: wheat;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin: 10px;
+  }
+  
+  .btn:hover {
+    background-color: #2980b9;
+  }
+  
+  .new-game-btn {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 1.2rem;
+    border: none;
+    border-radius: 5px;
+    background-color: #e74c3c;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .new-game-btn:hover {
+    background-color: #c0392b;
+  }
+  
+  .hamburger-icon {
+    font-size: 1.5rem;
+    margin-top: 10px;
+    cursor: pointer;
+    color: #333;
+  }
+  
+  .hint {
+    margin-top: 10px;
+    color: #888;
+  }
+  
+  
+.prompt-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.prompt-box {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.prompt-box input {
+  margin: 10px 0;
+  padding: 5px;
+  width: 80%;
+}
+
+.prompt-box button {
+  margin: 5px;
+  padding: 5px 10px;
+  cursor: pointer;
+}

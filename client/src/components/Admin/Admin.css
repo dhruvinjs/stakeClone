@@ -1,0 +1,57 @@
+.Admin {
+    text-align: center;
+  }
+  
+  .Profile-image {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+  }
+  
+  .Admin-header {
+    background-color: #282c34;
+    padding: 20px;
+    color: white;
+  }
+  
+  .nav {
+    background-color: #333;
+    padding: 10px 0;
+    color: white;
+  }
+  
+  .nav ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .nav ul li {
+    display: inline;
+    margin-right: 10px;
+  }
+  
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    padding: 20px;
+  }
+  
+  .grid-item {
+    padding: 20px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+  }
+  
+  .chart {
+    padding: 20px;
+  }
+  
+  .Admin-footer {
+    background-color: #282c34;
+    padding: 10px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    color: white;
+  }

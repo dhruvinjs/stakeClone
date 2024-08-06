@@ -1,0 +1,88 @@
+body, html {
+  height: 100%;
+  margin: 0;
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.background-video {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -1;
+}
+
+.form-container {
+  position: relative;
+  width: 320px;
+  border-radius: 0.75rem;
+  padding: 2rem;
+  background-color: blue;
+  z-index: 1;
+}
+
+.title {
+  color: wheat;
+  margin-bottom: 2rem;
+  font-size: 2rem;
+}
+
+.input {
+  margin: 0.5rem 0;
+  padding: 1rem 0.5rem;
+  width: 100%;
+  color: wheat;
+  border: none;
+  outline: none;
+}
+
+.username, .password {
+  border-bottom: 1px solid wheat;
+  transition: all 400ms;
+}
+
+.username:hover, .password:hover {
+  background-color: #424242;
+  border: none;
+  border-radius: 0.5rem;
+}
+
+.butn {
+  height: 3rem;
+  width: 100%;
+  margin-top: 1rem;
+  background-color: wheat;
+  border-radius: 0.5rem;
+  border: none;
+  font-size: 1.2rem;
+  transition: all 400ms;
+  box-shadow: 0 0 10px antiquewhite, 0 0 10px antiquewhite;
+}
+
+.butn:hover {
+  background-color: antiquewhite;
+  box-shadow: none;
+}
+
+.forgot-butn {
+  background-color: inherit;
+  color: wheat;
+  margin-top: 1rem;
+  font-size: 1rem;
+  box-shadow: none;
+}
+
+.forgot-butn:hover {
+  color: burlywood;
+}
+
+.error {
+  color: wheat;
+  margin: 0.5rem 0;
+  font-size: 1rem;
+}
