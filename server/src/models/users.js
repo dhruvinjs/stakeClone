@@ -47,6 +47,10 @@ const userSchema = new mongoose.Schema({
       type: Number,
     default:0,
   },
+  betted:{
+    type: Number,
+    default:0,
+  },
   
   winning: {
     type: mongoose.Schema.Types.ObjectId,

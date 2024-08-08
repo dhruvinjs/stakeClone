@@ -292,7 +292,7 @@ const investMoney = asyncHandler(async (req, res) => {
   user.invested= (user.invested || 0) + numericAmount;
   await user.save({ validateBeforeSave: false });
 
-  res.status(200).json(new ApiRes(200, user.invested, "Balance added successfully"));
+  res.status(200).json(new ApiRes(200, user.invested , "Balance added successfully"));
 });
 
 const adminData=asyncHandler(async(req,res)=>{
@@ -350,6 +350,20 @@ const deductLostAmt=asyncHandler(async(req,res)=>{
   .json(new ApiRes(200,{lost},"The amt is deducted"))
 })
 
+const generateGameandrefreshToken=asyncHandler(async(gameId)=>{
+  const game=await GamesData.findOne({gameId});
+  const gameToken=await game.generateGameToken();
+  const refreshToken=await game.generateRefreshToken();
+  game.refreshToken=refreshToken;
+  await game.save({validateBeforeSave:false});
+  const options={
+      http:true,
+      secure:true
+  }
+  res.cookie(gameToken,"gameToken",options);
+  res.json(new ApiRes(200,{gameToken},"game token created"));
+})
+
 
 const betUnits=asyncHandler(async(req,res)=>{
   const user=await User.findById(req.user._id);
@@ -358,16 +372,37 @@ const betUnits=asyncHandler(async(req,res)=>{
   }
   const {amt}=req.body;
   var finalAmt=Number(amt);
+  const {id}=req.body;
+  const gameId=Number(id);
   if(finalAmt<=0){
     throw new ApiError(401,"Amount should be greater than 0")
   }
-  
+  const game=await GamesData.findOne(gameId);//will also pass the game name in the req body
+        // const user=await User.findById(user._id);
+        if(!game ){
+            throw new ApiError("user and game not found");
+        }
+        const gameToken=game.generateGameandrefreshToken(game._id);
+        game.betted+=finalAmt;
+        game.dailybets.push(
+          {
+          user:user._id, //founded the user now alloacting the daily bets
+          amount:finalAmt,
+          date:new Date(),
+        }
+        )
+
+
  user.invested=user.invested-finalAmt;
+ user.betted+=finalAmt;
   await user.save({
     validateBeforeSave:false,
   });
+  await game.save({
+    validateBeforeSave:false,
+  });
   res.status(200)
-  .json(new ApiRes(200,{},
+  .json(new ApiRes(200,user.betted && user.invested,
     "The amt is deducted and betted"))
 
 })

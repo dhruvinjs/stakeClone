@@ -5,6 +5,10 @@ const lostAmtSchema=mongoose.Schema({
         type:Number,
         required:true
     },
+    betted:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"GamesData",
+    },
     userId:{
         type:mongoose.Schema.Types.ObjectId,
         ref:"User",

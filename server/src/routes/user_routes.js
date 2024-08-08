@@ -7,7 +7,8 @@ import cookieParser from "cookie-parser";
 import { generatenewAccessToken } from "../controllers/user-controller.js";
 import { adminProfile, loginAdmin, logOutAdmin, regAdmin } from "../controllers/admin-controller.js";
 import {verifyAdminJwt} from '../middleware/adminAuth-middleware.js';
-import { gamesData } from "../controllers/game-controller.js";
+import { gamesData, takeProfit } from "../controllers/game-controller.js";
+import { verifyGameJwt } from "../middleware/gameAuth-middleware.js";
 
 const routers=Router();
 
@@ -33,7 +34,7 @@ routers.route("/LoginAdmin").post(loginAdmin);
 routers.route("/AdminProfile").get(verifyAdminJwt,adminProfile);
 routers.route("/Adminlogout").post(verifyAdminJwt,logOutAdmin)
 routers.route("/CreateGame").post(verifyAdminJwt,gamesData)
-
+routers.route("/gameProfit").patch(verifyGameJwt,takeProfit);
 
 export default routers;
 

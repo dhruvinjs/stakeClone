@@ -7,6 +7,7 @@ const gameSchema=new mongo.Schema({
     type: Number,
     default: 0
   },
+  //profit and loss of all games
   profit: {
     type: Number,
     default: 0
