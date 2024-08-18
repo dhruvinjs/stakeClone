@@ -1,6 +1,9 @@
-::selection {
-    background-color: gray;
-  }
+body {
+  margin: 0;
+  font-family: 'Arial', sans-serif;
+  background-color: white;
+
+}
   
   .form-container {
     width: 320px;

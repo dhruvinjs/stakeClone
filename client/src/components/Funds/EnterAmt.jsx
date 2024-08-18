@@ -21,7 +21,7 @@ const EnterAmt=()=>{
     const addMoney=async()=>{
         const token=localStorage.getItem('accessToken');
         // const amount=parseInt(e.target.amount.value);
-        const res=await axios.post('http://localhost:8000/api/users/Invest', { amount: data.amount},{
+        const res=await axios.put('http://localhost:8000/api/users/Invest', { amount: data.amount},{
             headers:{
                 'Content-Type':'application/json',
                 "Authorization":`Bearer ${token}`

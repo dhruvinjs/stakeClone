@@ -20,7 +20,7 @@ useEffect(() => {
     return (
         <div>
             <div>
-            <h1>Disclaimer=DO not reload this page</h1>
+            <h1>Disclaimer=Do not reload this page</h1>
 
                 <p>Just accept our req for money and if u have already accepted it</p>
                

@@ -66,7 +66,7 @@ const Register = () => {
 
   return (
     <div>
-      <div className="container">
+      
         <form className='form-container' onSubmit={handleSubmit}>
           <p className="title">Registration Form</p>
           {error && <p className="error">{error}</p>}
@@ -137,7 +137,7 @@ const Register = () => {
           <button className="btn" type="submit" onClick={gologin}>Go to Login</button>
         </form>
       </div>
-    </div>
+
   );
 };
 

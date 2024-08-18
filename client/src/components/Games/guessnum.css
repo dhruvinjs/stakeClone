@@ -7,6 +7,12 @@
     background-color: #f0f0f0;
     padding: 20px;
   }
+  body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    background-color: white;
+
+  }
   
   .title {
     color: wheat;
@@ -19,7 +25,7 @@
     border-radius: 0.75rem;
     background-color: rgba(25, 221, 205, 0.944);
     padding: 2rem;
-    color: rgb(76, 76, 62);
+    color: rgb(255, 255, 255);
   }
 
   .card {

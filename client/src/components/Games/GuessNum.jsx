@@ -85,11 +85,17 @@ const Guessnum = () => {
     setdeductedAmt(0); // Reset deducted amount
     setGameOver(false);
     checkMinUnits();
+    addToProfit()
   };
 
   const handleGuess = (e) => {
     e.preventDefault();
-
+   
+      if(betAmount<=0){
+        setError("You need to have at least 600 units to play");
+        setshowPrompt(true);
+      }
+  
     if (Number(guess) < 1 || Number(guess) > 100) {
       setError("Number should be between 1 and 100");
       return;
@@ -135,25 +141,28 @@ console.log(`Hint Visible: ${hintVisible}`);
     GetCurrentUser();
   }, []);
 
-  // const deductBalUnits = async () => {
-  //   const amt = deductedAmt;
-  //   const atoken = localStorage.getItem('accessToken');
-  //   if (!atoken) {
-  //     setError("token not found");
-  //   }
-  //   try {
-  //     const res = await axios.patch('/api/users/DeductLostAmt', { amt }, {
-  //       headers: {
-  //         'Authorization': `Bearer ${atoken}`
-  //       }
-  //     });
-  //     if (res.status === 200) {
-  //       setSuccess("money Lost " + deductedAmt);
-  //     }
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
+const addToProfit=async()=>{
+  const amt=deductedAmt;
+const gameToken=localStorage.getItem('gameToken');
+if(!gameToken){
+  console.error("game token not found")
+}
+
+try {
+  const resposne=await axios.put('http://localhost:8000/api/users/gameProfit',{amt},{
+    headers:{
+      'Authorization':`Bearer ${gameToken}`
+    }
+    });
+    if(resposne.status===200){
+      console.log('Profit Added');
+    }
+} catch (error) {
+  console.log(error)
+}
+}
+
+ 
 
   const remUnits=async(amt)=>{
     // const amt = betAmount;
@@ -217,11 +226,12 @@ console.log(`Hint Visible: ${hintVisible}`);
 
   const addUnits = async (amt) => {
     const actoken = localStorage.getItem('accessToken');
+    const id=1;
     if (!actoken) {
       setError("token not found");
     }
     try {
-      const res = await axios.put('/api/users/Betunits', { amt }, {
+      const res = await axios.put('/api/users/Betunits', { amt ,id}, {
         headers: {
           'Authorization': `Bearer ${actoken}`
         }
@@ -262,8 +272,8 @@ console.log(`Hint Visible: ${hintVisible}`);
   return (
     <div className="card-container">
       <div className="form-Container">
-        {player && <p className="title">{player ? `${player.data?.name}` : 'Player data Not found'}
-          {player ? `${player?.data?.invested}`:"Loading"}</p>}
+        {player && <p className="title">Username: {player ? `${player.data?.name}` : 'Player data Not found'}</p>}
+            <p className="title">Purse:{player ? `${player?.data?.invested}`:"Loading"}</p>  
         <span className="title">Number Guessing Game</span>
         <div className="bet-options">
           <label>
@@ -331,7 +341,7 @@ console.log(`Hint Visible: ${hintVisible}`);
         )}
         <button onClick={goHome}>Go to Home</button>
         <button onClick={openPrompt}>Add Units</button>
-        {showPrompt && (
+        {showPrompt && (//if showPrompt value is true then it will open and aks for money
           <div className="prompt-overlay">
             <div className="prompt-box">
               <h3>Enter your bet amount</h3>

@@ -54,9 +54,9 @@ const ChangePass = () => {
     };
 
     return (
-        <div className="container">
-      <form className="form" onSubmit={handleSubmit}>
-      <p className="title">Enter the new passwprd</p>
+        <div>
+      <form className="form-container" onSubmit={handleSubmit}>
+      <p className="title">Enter the new password</p>
       {error && <p className='error'>{error}</p>}               
       
                 <input
@@ -80,7 +80,7 @@ const ChangePass = () => {
                 />
                 
                
-            <button type="submit" className='btn' onClick={handleSubmit}>Change Password</button>
+            <button type="submit" className='btnn' onClick={handleSubmit}>Change Password</button>
         </form>
        
     </div>

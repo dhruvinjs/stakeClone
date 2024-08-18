@@ -98,7 +98,7 @@ const gamesData=asyncHandler(async(req,res)=>{
 
 export {
     gamesData,
-    betted,
+    
     takeProfit,
     takeLoss,
 
