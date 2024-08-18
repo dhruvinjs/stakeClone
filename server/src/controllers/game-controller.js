@@ -65,7 +65,7 @@ const gamesData=asyncHandler(async(req,res)=>{
 
     // })
 
-    const takeProfit=asyncHandler(async(req,res)=>{
+    const   takeProfit=asyncHandler(async(req,res)=>{
         const {amt}=req.body;
         const profitAmt=Number(amt)    //this will be the deducted amt in the frontend
        
@@ -73,11 +73,14 @@ const gamesData=asyncHandler(async(req,res)=>{
         if(!game){
             throw new ApiError(400,"game not found");
         }
+        
         game.profit+=profitAmt;
         await game.save({validateBeforeSave:false});
-        res.status(200).json(new ApiRes(200,game.profit,
-            "Profit added successfuly"
-        ));
+        res.status(200).json({
+            profit:game.profit,
+            message:"profit added"
+        }
+        );
     })
 
     const takeLoss=asyncHandler(async(req,res)=>{

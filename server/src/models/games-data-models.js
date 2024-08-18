@@ -1,8 +1,9 @@
-import mongo from "mongoose"
+import mongoose from "mongoose";
+import { Schema } from "mongoose";
 // import { asyncHandler } from "../utils/asynchandler";
-import jsonwebtoken from "jsonwebtoken"
+import jsonwebtoken from "jsonwebtoken";
 
-const gameDataSchema=new mongo.Schema({
+const gameDataSchema=new mongoose.Schema({
 gameName:{
   type:String,
 },//special id for games
@@ -39,7 +40,7 @@ refreshToken:{
 },
 dailybets:[
   {user:{
-type:mongo.Schema.Types.ObjectId,
+type:mongoose.Schema.Types.ObjectId,
 ref:"User"
 },
 amt:{type:Number},
@@ -51,12 +52,12 @@ date:{type:Date,default:Date.now}
 gameDataSchema.methods.generateGameToken=function(){
 return jsonwebtoken.sign(
   {
-  id:this.id,
+    _id: this._id, 
   gameName:this.gameName,
 }
 ,process.env.ACCESS_TOKEN_SECRET,
 {
-  expiresIn:"5m",
+  expiresIn:"10m",
 },
 )
 }
@@ -64,7 +65,7 @@ return jsonwebtoken.sign(
 gameDataSchema.methods.generaterefreshToken=function(){
   return jsonwebtoken.sign(
     {
-    id:this.id,
+    id:this._id,
     
   },
   process.env.REFRESH_TOKEN_SECRET,
@@ -76,4 +77,4 @@ gameDataSchema.methods.generaterefreshToken=function(){
   
 
 
-export const GamesData=new mongo.model("GamesData",gameDataSchema)
+export const GamesData=new mongoose.model("GamesData",gameDataSchema)

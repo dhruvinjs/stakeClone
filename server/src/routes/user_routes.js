@@ -34,7 +34,7 @@ routers.route("/LoginAdmin").post(loginAdmin);
 routers.route("/AdminProfile").get(verifyAdminJwt,adminProfile);
 routers.route("/Adminlogout").post(verifyAdminJwt,logOutAdmin)
 routers.route("/CreateGame").post(verifyAdminJwt,gamesData)
-routers.route("/gameProfit").patch(verifyGameJwt,takeProfit);
+routers.route("/gameProfit").put(verifyGameJwt,takeProfit);
 
 export default routers;
 
