@@ -12,12 +12,14 @@
   margin-bottom: 10px; /* Add margin to separate from inputs */
 }
 
-.form-container {
-  width: 1000px; /* Adjust width for better form fitting */
+.frm-container {
+  
+  position: relative;
+  width: 400px;
   border-radius: 0.75rem;
-  background-color: rgba(17, 24, 39, 1);
   padding: 2rem;
-  color: rgba(243, 244, 246, 1);
+  background-color: rgb(32, 32, 97);
+  z-index: 1;
 }
 
 .title {
@@ -35,8 +37,8 @@ input {
   margin-bottom: 15px; /* Add margin to input containers */
 }
 
-.btn {
-  background-color: hsl(55, 100%, 86%);
+.butn {
+  background-color: hsl(222, 45%, 90%);
   color: rgb(144, 107, 107);
   border: none;
   padding: 10px 20px;

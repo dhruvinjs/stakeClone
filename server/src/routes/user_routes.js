@@ -1,5 +1,5 @@
 import { Router } from "express";
-import {ChangeCurrentPassword, checkMail, getCurrentUser, userRegister,investMoney, adminData, withdrawAmt, deductLostAmt, betUnits, AddWinningUnits} from "../controllers/user-controller.js";
+import {ChangeCurrentPassword, checkMail, getCurrentUser, userRegister,investMoney, adminData, withdrawAmt, deductLostAmt, betUnits, AddWinningUnits, takeRemUnits} from "../controllers/user-controller.js";
 import {loginUser} from "../controllers/user-controller.js";
 import { verifyJwt } from "../middleware/auth-middleware.js";
 import { logOut } from "../controllers/user-controller.js";
@@ -7,7 +7,7 @@ import cookieParser from "cookie-parser";
 import { generatenewAccessToken } from "../controllers/user-controller.js";
 import { adminProfile, loginAdmin, logOutAdmin, regAdmin } from "../controllers/admin-controller.js";
 import {verifyAdminJwt} from '../middleware/adminAuth-middleware.js';
-import { gamesData, takeProfit } from "../controllers/game-controller.js";
+import { clearGameToken, gamesData, takeProfit } from "../controllers/game-controller.js";
 import { verifyGameJwt } from "../middleware/gameAuth-middleware.js";
 
 const routers=Router();
@@ -30,11 +30,16 @@ routers.route("/DeductLostAmt").patch(verifyJwt,deductLostAmt)
 routers.route("/Betunits").put(verifyJwt,betUnits)
 routers.route("/Depositunits").put(verifyJwt,AddWinningUnits)
 routers.route("/RegAdmin").post(regAdmin);
-routers.route("/LoginAdmin").post(loginAdmin);
+routers.route("/Admin/Login").post(loginAdmin);
 routers.route("/AdminProfile").get(verifyAdminJwt,adminProfile);
 routers.route("/Adminlogout").post(verifyAdminJwt,logOutAdmin)
 routers.route("/CreateGame").post(verifyAdminJwt,gamesData)
 routers.route("/gameProfit").put(verifyGameJwt,takeProfit);
+routers.route("/TakeRemUnits").put(verifyJwt,takeRemUnits);
+routers.route('/GameLogout').post(verifyGameJwt,clearGameToken)
+
+
+
 
 export default routers;
 

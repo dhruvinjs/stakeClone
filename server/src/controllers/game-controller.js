@@ -66,8 +66,13 @@ const gamesData=asyncHandler(async(req,res)=>{
     // })
 
     const   takeProfit=asyncHandler(async(req,res)=>{
+        //   const game=await GamesData.findByID(req.game._id)
         const {amt}=req.body;
         const profitAmt=Number(amt)    //this will be the deducted amt in the frontend
+        const user=await User.findById(req.user._id);
+  if(!user){
+    throw new ApiError(404,"User not found");
+  }
        
         const game=await GamesData.findById(req.game._id);
         if(!game){
@@ -75,9 +80,17 @@ const gamesData=asyncHandler(async(req,res)=>{
         }
         
         game.profit+=profitAmt;
+        // let lost=user.lost;
+        user.lost+=profitAmt;
+        user.invested-=profitAmt;
+        await user.save({
+            validateBeforeSave:false,
+          });
         await game.save({validateBeforeSave:false});
         res.status(200).json({
             profit:game.profit,
+            invested:user.invested,
+            loss:user.loss, 
             message:"profit added"
         }
         );
@@ -97,11 +110,33 @@ const gamesData=asyncHandler(async(req,res)=>{
         ));
     })
 
-    
+    const clearGameToken=asyncHandler(async(req,res)=>{
+        await GamesData.findByIdAndUpdate(
+            req.game._id,
+            {
+                $unset:{
+                    refreshToken:1
+                }
+            }
+        )
+        const options={
+            httpOnly:true,
+            secure:true
+        }
+        res.clearCookie("gameToken",options),
+        res.status(200).json(new ApiRes(200,"game token cleared"))
+    })
+
+    const overallRevenue=()=>{
+        
+    }
+
+
+
 
 export {
     gamesData,
-    
+    clearGameToken,
     takeProfit,
     takeLoss,
 

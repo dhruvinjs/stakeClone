@@ -5,6 +5,10 @@ import { ApiError } from "../utils/api-error.js";
 
 const verifyGameJwt=asyncHandler(async(req,res,next)=>{
     const authHeader=req.headers.authorization;
+
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      return next(new ApiError(401, 'Unauthorized'));
+    }
     const token=authHeader.replace('Bearer ','');
     if(!token){
         throw new ApiError(400,"token not recieved");

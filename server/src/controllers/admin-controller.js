@@ -39,11 +39,11 @@ const{
 )
 
 const loginAdmin=asyncHandler(async(req,res)=>{
-    const {username,password}=req.body;
-    if(!username || !password){
+    const {email,password}=req.body;
+    if(!email || !password){
         throw new ApiError(400, "All fields are required");
     }
-    const admin=await Admin.findOne({username})
+    const admin=await Admin.findOne({email})
     if(!admin){
         throw new ApiError(400, "Invalid username or password");
     }
@@ -51,23 +51,25 @@ const loginAdmin=asyncHandler(async(req,res)=>{
     if(!check){
         throw new ApiError(401,"password is incorrect");
     }
-    else{
-const {refreshToken}=await generateRefreshToken(admin._id)
+    
+const {refreshToken}=await generateRefreshToken(admin._id);
    const options={
     httpOnly: true,
     secure:true
    }
    res.cookie("refreshToken", refreshToken, options);
    res.status(200)
-     .json(new ApiRes(200,{refreshToken },"Admin logged in successfully"));
-}
-
-})
+     .json({
+        admin,
+        token:refreshToken,
+       message: "Admin login success"
+     });
+    })
 
 const generateRefreshToken=async(adminId)=>{
     
  try {
-    const admin=await Admin.findOne(adminId);
+    const admin=await Admin.findById(adminId);
        const refreshToken=await admin.generateRefToken();
        admin.refreshToken=refreshToken;
    

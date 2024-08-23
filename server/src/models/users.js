@@ -53,8 +53,8 @@ const userSchema = new mongoose.Schema({
   },
   
   winning: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
+type:Number,
+default:0,  
   },
   lost: {
     type: mongoose.Schema.Types.ObjectId,

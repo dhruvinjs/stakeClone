@@ -67,7 +67,7 @@ const Register = () => {
   return (
     <div>
       
-        <form className='form-container' onSubmit={handleSubmit}>
+        <form className='frm-container' onSubmit={handleSubmit}>
           <p className="title">Registration Form</p>
           {error && <p className="error">{error}</p>}
           <input
@@ -95,7 +95,7 @@ const Register = () => {
             value={data.email}
             onChange={handleInput}
             required
-            className='email input'
+            className='input'
           />
           <input
             type="text"
@@ -104,7 +104,7 @@ const Register = () => {
             value={data.country}
             onChange={handleInput}
             required
-            className='country input'
+            className='input'
           />
           <input
             type="text"
@@ -113,7 +113,7 @@ const Register = () => {
             value={data.username}
             onChange={handleInput}
             required
-            className='username input'
+            className='input'
           />
           <input
             type="password"
@@ -122,7 +122,7 @@ const Register = () => {
             value={data.password}
             onChange={handleInput}
             required
-            className='password input'
+            className='input'
           />
           <input
             type="password"
@@ -131,10 +131,10 @@ const Register = () => {
             value={data.confirmPassword}
             onChange={handleInput}
             required
-            className='confirmPassword input'
+            className='input'
           />
-          <button className="btn" type="submit">Register</button>
-          <button className="btn" type="submit" onClick={gologin}>Go to Login</button>
+          <button className="butn" type="submit">Register</button>
+          <button className="butn" type="submit" onClick={gologin}>Go to Login</button>
         </form>
       </div>
 

@@ -4,9 +4,10 @@ import { Schema } from "mongoose";
 import jsonwebtoken from "jsonwebtoken";
 
 const gameDataSchema=new mongoose.Schema({
-gameName:{
-  type:String,
-},//special id for games
+gameid: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Game"  // Ensure this matches the exact model name
+  },
 id:{
   type:Number
 },
@@ -57,7 +58,7 @@ return jsonwebtoken.sign(
 }
 ,process.env.ACCESS_TOKEN_SECRET,
 {
-  expiresIn:"10m",
+  expiresIn:"1h",
 },
 )
 }

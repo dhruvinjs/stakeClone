@@ -9,6 +9,7 @@ import { ApiRes } from "../utils/api-res.js";
 import jwt from "jsonwebtoken";
 import { GamesData } from "../models/games-data-models.js";
 import { json } from "express";
+import { Game } from "../models/games-models.js";
 
 
 
@@ -330,39 +331,46 @@ const withdrawAmt=asyncHandler(async(req,res)=>{
 
 })
 
+
+
+
+// }
+
 const deductLostAmt=asyncHandler(async(req,res)=>{
-  const user=await User.findById(req.user._id);
-  if(!user){
-    throw new ApiError(404,"User not found");
-  }
-  const {amt}=req.body;
-  let numericAmt=Number(amt)
-  if(numericAmt<=0){
-    throw new ApiError(401,"Amount should be greater than 0")
-
-  }
-  let lost=user.lost;
-  lost=lost-numericAmt;
-  user.invested=user.invested-numericAmt;
-  await user.save({
-    validateBeforeSave:false,
-  });
-  res.status(200)
-  .json(new ApiRes(200,{lost},"The amt is deducted"))
-})
-
-//betunits will take the bet amt of user and basically generate a game token (asynch function)
-  const betUnits=asyncHandler(async(req,res)=>{
     const user=await User.findById(req.user._id);
+    if(!user){
+        throw new ApiError(404,"User not found");
+      }
+      const {amt,id}=req.body;
+      let numericAmt=Number(amt)
+      if(numericAmt<=0){
+          throw new ApiError(401,"Amount should be greater than 0")
+        }
+        let lost=user.lost;
+        lost=lost+numericAmt;
+        user.invested=user.invested-numericAmt;
+        const {gameProfit}=await gameProfit(id,amt)
+        await user.save({
+            validateBeforeSave:false,
+          });
+          res.status(200)
+          .json({
+              message:"Amount deducted & added successfully",
+              loss:user.lost,
+              invested:user.invested,
+              gameProfit
+            })
+          })
+          
+          //betunits will take the bet amt of user and basically generate a game token (async function)
+          const betUnits=asyncHandler(async(req,res)=>{
+            const user=await User.findById(req.user._id);
   if(!user){
     throw new ApiError(404,"User not found");
   }
   const {amt,id}=req.body;
-  var finalAmt=Number(amt);
-  // const gameId=Number(id);
-  // const finalId={
-    //   id:gameId,
-    // }
+  let finalAmt=Number(amt);
+
     if(finalAmt<=0){
       throw new ApiError(401,"Amount should be greater than 0")
     }
@@ -371,9 +379,6 @@ const deductLostAmt=asyncHandler(async(req,res)=>{
       throw new ApiError(404, "Game not found");
     }
     
-    // const tokens =  generateGameandrefreshToken(game._id);
-    
-    // const tokens =await generateGameandrefreshToken(game._id);
     const {gameToken,refreshToken}=await generateGameandrefreshToken(game._id)
     if (!gameToken ){
       throw new ApiError(500, "Failed to return tokens");
@@ -386,7 +391,7 @@ const deductLostAmt=asyncHandler(async(req,res)=>{
     game.dailybets.push(
       {
         user:user._id, //founded the user now alloacting the daily bets
-        amount:finalAmt,
+        amt:amt,
         date:new Date(),
       }
     )
@@ -405,12 +410,12 @@ const deductLostAmt=asyncHandler(async(req,res)=>{
       gameToken:gameToken,
       message:"gametoken generated successfully "
     })
-      
-    })
-
-//async fucntion which will generate a token for game
-//No asynchandler used because it is not returning a promise
-    const generateGameandrefreshToken = async function(gameId) {
+    
+  })
+  
+  //async fucntion which will generate a token for game
+  //No asynchandler used because it is not returning a promise
+  const generateGameandrefreshToken = async function(gameId) {
       try {
           const game = await GamesData.findById(gameId);
            const gameToken = await game.generateGameToken();
@@ -427,22 +432,70 @@ const deductLostAmt=asyncHandler(async(req,res)=>{
       }
     };
     
+    const gameLoss=async(gameId,amount)=>{
+      const game=await GamesData.findOne({id:gameId});
+      if(!game){
+        throw new ApiError(404,"Game not found");
+        }
+    
+        game.loss+=amount;
+        game.investment-=amount;
+      await game.save({validateBeforeSave:false});
+        return{
+          loss:game.loss,
+          gameinvested:game.investment,
+        }
+      };
+
+
+      const takeRemUnits=asyncHandler(async(req,res)=>{
+        const user=await User.findById(req.user._id);
+        if(!user){
+          throw new ApiError(404,"User not found");
+        }
+        const {amt,gameamt,id}=req.body;
+        const game=await GamesData.findOne({id})
+        if(!game){
+          throw new ApiError(400,"game not found")
+        }
+        console.log({game})
+        game.profit+=gameamt
+        user.invested+=amt;
+       await game.save({validateBeforeSave:false})
+       await user.save({validateBeforeSave:false})
+        res.status(200)
+        .json({
+          message:"Rem units invested successfully and profit added successfully",
+          invested: user.invested,
+          gameProfit:game.profit,
+
+        })
+      })
     
     const AddWinningUnits=asyncHandler(async(req,res)=>{
       const user=await User.findById(req.user._id);
       if(!user){
         throw new ApiError(404,"User not found");
       }
-      const {amt}=req.body;
+      const {amt,id}=req.body;
       var numericAmt=Number(amt)
   if(numericAmt<0){
     throw new ApiError(401,"Amount should be greater than 0")
   }
   user.invested=user.invested+numericAmt;
-  var baal=user.invested
+  user.winning+=numericAmt
+  // var baal=user.invested
+  const {loss,gameinvested}=await gameLoss(id,amt)
   await user.save({validateBeforeSave:false})
   res.status(200)
-  .json(new ApiRes(200,{baal},"AMT DEPOSITED TO THE ACCOUNT"))
+  .json(
+    {
+      "userprofit":user.winning,
+      "gameLoss":loss,
+      "gameInvested":gameinvested,
+      "userinvested":user.invested
+    }
+  )
 })
 
 
@@ -462,5 +515,6 @@ export { userRegister,
   betUnits,
   AddWinningUnits,
   generateGameandrefreshToken,
+  takeRemUnits,
 
 }

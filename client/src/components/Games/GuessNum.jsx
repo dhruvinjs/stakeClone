@@ -90,7 +90,7 @@ const Guessnum = () => {
 
   const handleGuess = (e) => {
     e.preventDefault();
-   
+   console.log(number)
       if(betAmount<=0){
         setError("You need to have at least 600 units to play");
         setshowPrompt(true);
@@ -164,8 +164,9 @@ try {
 
  
 
-  const remUnits=async(amt)=>{
-    // const amt = betAmount;
+  const remUnits=async(amt,gameamt)=>{
+    
+    const id=1;
     if(amt>0){
       setError("The amount should be greater than 0");
     }
@@ -177,15 +178,16 @@ try {
       setError("token not found");
     }
     try {
-      const res = await axios.put('/api/users/Depositunits', { amt }, {
+      const res = await axios.put('/api/users/TakeRemUnits', { amt ,gameamt, id}, {
         headers: {
           'Authorization': `Bearer ${actoken}`
         }
       });
       if (res.status === 200) {
-        setSuccess("remaining units " + amt);
-        setBetAmount(0)    
-        setUnitsTaken(true) 
+        
+        setSuccess("Remaining units withdrawn " + amt);
+        setSuccess("Are you sure? you can Win more")
+        setBetAmount(0)
       }
     } catch (error) {
       console.log(error);
@@ -195,12 +197,13 @@ try {
 
   const Depositunits = async (betAmount) => {
     const amt = betAmount;
+    const id = 1;
     const actoken = localStorage.getItem('accessToken');
     if (!actoken) {
       setError("token not found");
     }
     try {
-      const res = await axios.put('/api/users/Depositunits', { amt }, {
+      const res = await axios.put('/api/users/Depositunits', { amt,id }, {
         headers: {
           'Authorization': `Bearer ${actoken}`
         }
@@ -213,8 +216,23 @@ try {
     }
   };
 
-  const goHome = () => {
-    navigate('/home');
+  const goHome =async () => {
+   const gameToken=localStorage.getItem('gameToken')
+    try {
+     const response=await axios.post('api/users/GameLogout',{},
+      {
+        headers:{
+          'Authorization':`Bearer ${gameToken}`
+        }
+      }
+     );
+    
+      if(response.status===200){
+        localStorage.removeItem('gameToken')
+     navigate('/home');}
+    } catch (error) {
+      console.log(error)
+    }
   };
 
   const checkMinUnits = async () => {
@@ -270,7 +288,7 @@ try {
     setshowPrompt(true);
   };
   return (
-    <div className="card-container">
+    <div >
       <div className="form-Container">
         {player && <p className="title">Username: {player ? `${player.data?.name}` : 'Player data Not found'}</p>}
             <p className="title">Purse:{player ? `${player?.data?.invested}`:"Loading"}</p>  
@@ -311,15 +329,16 @@ try {
           </label>
         </div>
         <div className="guess-section">
-          <input
-            type="number"
-            placeholder="Enter Guess Number"
-            value={guess}
-            onChange={handleInputChange}
-            required
-            className="guess-input"
-            disabled={gameOver}
-          />
+        <input
+          id="guessnum"
+          name="guessnum`"
+          type="number"
+          value={guess}
+          onChange={handleInputChange}
+          placeholder="Enter guess num"
+          className="block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+        />
+
           <br />
           <FontAwesomeIcon icon={faLightbulb} className="hint-icon" onClick={handleHint} />
           {hintVisible && <p className="hint">{hint}</p>}
@@ -339,8 +358,8 @@ try {
             Start New Game
           </button>
         )}
-        <button onClick={goHome}>Go to Home</button>
-        <button onClick={openPrompt}>Add Units</button>
+        <button onClick={goHome} className="btn new-game-btn">Go to Home</button>
+        <button onClick={openPrompt} className="btn new-game-btn">Add Units</button>
         {showPrompt && (//if showPrompt value is true then it will open and aks for money
           <div className="prompt-overlay">
             <div className="prompt-box">
@@ -357,7 +376,7 @@ try {
             </div>
           </div>
         )}
-         <button className="btn" onClick={()=>remUnits(betAmount)}>Take Remaining Units</button>
+         <button className="btn" onClick={()=>remUnits(betAmount,deductedAmt)}>Take Remaining Units</button>
       </div>
     </div>
   );

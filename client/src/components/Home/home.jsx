@@ -124,7 +124,7 @@ const handleBet=(e)=>{
     </Typography>
     <br />
     <Typography variant="h4" component="div">
-        Purse {user ? user.data?.invested : 'Loading'}
+        Purse {user ? user.data?.invested : 'Loading'} Units
     </Typography>
     <Card sx={{ maxWidth: 450, backgroundColor: 'white', padding: '16px' }}>
         <CardContent>
@@ -134,12 +134,15 @@ const handleBet=(e)=>{
             <Typography gutterBottom variant="h5" component="div">
                 Guess the number between 1-100 and win the lottery
             </Typography>
-            <Typography variant="body1" color="text.secondary">
+            <Typography variant="h7" color="text.secondary">
                 Test your luck and skill in the ultimate number guessing game!  
                 Choose your bet multiplier—2x, 3x, or 5x and guess the secret number between 1 and 100.  
                 Use hints wisely, but remember, each hint costs $20!  
                 Win big by guessing correctly and climb the leaderboards.  
                 With fast-paced rounds and endless challenges, GuessMaster 100 will keep you hooked!
+            </Typography>
+            <Typography gutterBottom variant="h6" component="div">
+             Note=Minimum 600 Units required to play this game
             </Typography>
         </CardContent>
         <Button
