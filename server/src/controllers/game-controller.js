@@ -210,7 +210,7 @@ const guessNumDailybets=asyncHandler(async(req,res)=>{
 })
 
 
-//will generate  the taoken and random number 
+//will generate  the token and random number 
 const gnumTokenandNum=asyncHandler(async(req,res)=>{
   const game=await GamesData.findById(req.game._id);
   if(!game){
