@@ -1,5 +1,5 @@
 import { Router } from "express";
-import {ChangeCurrentPassword, checkMail, getCurrentUser, userRegister,investMoney, adminData, withdrawAmt, deductLostAmt, betUnits, AddWinningUnits, takeRemUnits} from "../controllers/user-controller.js";
+import {ChangeCurrentPassword, checkMail, getCurrentUser, userRegister,investMoney, adminData, withdrawAmt, deductLostAmt, betUnits, AddWinningUnits, takeRemUnits, generateGameandrefreshToken} from "../controllers/user-controller.js";
 import {loginUser} from "../controllers/user-controller.js";
 import { verifyJwt } from "../middleware/auth-middleware.js";
 import { logOut } from "../controllers/user-controller.js";
@@ -7,7 +7,7 @@ import cookieParser from "cookie-parser";
 import { generatenewAccessToken } from "../controllers/user-controller.js";
 import { adminProfile, loginAdmin, logOutAdmin, regAdmin } from "../controllers/admin-controller.js";
 import {verifyAdminJwt} from '../middleware/adminAuth-middleware.js';
-import { clearGameToken, gamesData, takeProfit } from "../controllers/game-controller.js";
+import { clearGameToken, gamesData, gnumTokenandNum, guessNumDailybets, overallGameData, takeProfit } from "../controllers/game-controller.js";
 import { verifyGameJwt } from "../middleware/gameAuth-middleware.js";
 
 const routers=Router();
@@ -37,9 +37,9 @@ routers.route("/CreateGame").post(verifyAdminJwt,gamesData)
 routers.route("/gameProfit").put(verifyGameJwt,takeProfit);
 routers.route("/TakeRemUnits").put(verifyJwt,takeRemUnits);
 routers.route('/GameLogout').post(verifyGameJwt,clearGameToken)
-
-
-
+routers.route('/Admin/TotalGameProfit').get(verifyAdminJwt,overallGameData)
+routers.route('/Dailybets').post(verifyGameJwt,guessNumDailybets)//i will take the final data when game over 
+routers.route('/GnumToken').get(verifyGameJwt,gnumTokenandNum)
 
 export default routers;
 

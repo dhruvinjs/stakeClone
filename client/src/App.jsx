@@ -18,6 +18,7 @@ import Guessnum from './components/Games/GuessNum.jsx';
 import Admin from './components/Admin/AdminHome.jsx';
 import LandingPage from './components/LandingHome/LandingPage.jsx';
 import AdminLogin from './components/Admin/AdminLogin.jsx';
+import NewGuess from './components/Games/NewGuess.jsx';
 
 function App() {
   // const user=localStorage.getItem("token");
@@ -37,7 +38,7 @@ function App() {
     <Route path='/Request' element={<ShowReq />}/>
     <Route path='/Admin/Users' element={<AdminData/>}/>
     <Route path='/Funds' element ={<Funds/>}/>
-    <Route path='/GuessNum' element={<Guessnum/>}/>
+    <Route path='/GuessNum' element={<NewGuess/>}/>
     <Route path='/Adminhome' element={<Admin/>}/>
     <Route path='Admin/Login' element={<AdminLogin/>}/>
 

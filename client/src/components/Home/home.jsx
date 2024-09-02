@@ -11,7 +11,7 @@ import { Card } from '@mui/material';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-
+import { useCallback } from 'react';
 
 
 
@@ -23,7 +23,7 @@ const Home = () => {
   const [user, setUser] = useState(null);
   // const [success,setSuccess]=useState(null);
   const [betAmount,setBetAmount]=useState('');
-  
+  let  [lotteryNum,setLotterynum]=useState(0)
     const goProfile=()=>{
     navigate('/Profile');
   }
@@ -33,10 +33,7 @@ navigate('/Withdraw')
 
 
 
-
-
-
-const getData=async()=>{
+const getData=useCallback(async()=>{
   try {
     var token=localStorage.getItem('accessToken');
     if(!token){
@@ -58,7 +55,7 @@ const getData=async()=>{
   } catch (error) {
    setError(error)
   }
-}
+},[])
 useEffect(() => {
    getData()
 },[]);
@@ -73,7 +70,7 @@ const closePrompt=()=>{
 
 
 const deductBetUnits=async(amt)=>{
-  // var money=player.data?.invested;
+
   const id=1;//passing a default id assigned for the game 
   const actoken=localStorage.getItem('accessToken');
 if(!actoken){
@@ -86,11 +83,13 @@ try {
   }
   })
   const gameToken=res.data?.gameToken;
+   
   localStorage.setItem('gameToken',gameToken)
   if(res.status===200){
-console.log("money deducted go to guess");
-
-return true; 
+console.log(res.data?.num);
+let genNum=res.data?.num
+console.log("generated "+genNum)
+return genNum 
   }
  
 } catch (error) {
@@ -101,10 +100,12 @@ return true;
 const goGuess=async()=>{
 console.log(user.data.invested)
 let balance=user.data.invested;
-if(balance>=600){
-  const success=await deductBetUnits(betAmount)
-  if (success) {
-    navigate('/Guessnum', { state: { betAmount } });
+if(balance>=710 && betAmount>=710){
+  const genNum=await deductBetUnits(betAmount)
+
+
+  if (genNum) {
+    navigate('/Guessnum', { state: { betAmount ,genNum}});
   } 
 } else {
   alert("Insufficient balance! Can't play this game")
@@ -118,7 +119,10 @@ const handleBet=(e)=>{
 
   return (
 
-    <>    <Sidebar />
+    <>    
+    {/* <div className="w-screen h-screen bg-gray-800 flex items-center justify-center text-white"> */}
+
+    <Sidebar />
     <Typography variant="h4" component="div">
         Welcome {user ? user.data?.name : 'Loading'}
     </Typography>
@@ -132,7 +136,7 @@ const handleBet=(e)=>{
                 GuessMaster 100
             </Typography>
             <Typography gutterBottom variant="h5" component="div">
-                Guess the number between 1-100 and win the lottery
+                Guess the number between 2-2000 and win the lottery
             </Typography>
             <Typography variant="h7" color="text.secondary">
                 Test your luck and skill in the ultimate number guessing game!  
@@ -142,7 +146,7 @@ const handleBet=(e)=>{
                 With fast-paced rounds and endless challenges, GuessMaster 100 will keep you hooked!
             </Typography>
             <Typography gutterBottom variant="h6" component="div">
-             Note=Minimum 600 Units required to play this game
+             Note=Minimum 710 Units required to play this game
             </Typography>
         </CardContent>
         <Button
@@ -163,18 +167,18 @@ const handleBet=(e)=>{
             <div className="prompt-box">
                 <h3>Enter your bet amount</h3>
                 <input
-                    placeholder='Min Bal=600'
+                    placeholder='Min Bal=710'
                     type="number"
                     value={betAmount}
                     onChange={handleBet}
-                    min="600"
+                    min="710"
                 />
                 <button onClick={goGuess}>Play Now</button>
                 <button onClick={closePrompt}>Cancel</button>
             </div>
         </div>
     }
-
+{/* </div> */}
 </>
       // {/* <button onClick={goProfile} className='btn'>PROFILE</button>  */}
       // {/* <button onClick={handleLogOutWithFetch} className='btn'>Logout with API</button> */}

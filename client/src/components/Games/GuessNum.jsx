@@ -100,7 +100,7 @@ const Guessnum = () => {
       setError("Number should be between 1 and 100");
       return;
     }
-
+console.log(deductedAmt)
     checkGuess();
     setPrevGuess(guess);
   };

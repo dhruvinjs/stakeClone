@@ -10,6 +10,7 @@ const walletSchema=mongoose.Schema({
           },
 eachGameInv:{
     //will contain the data of our inv to each game   
-      
+      type:mongoose.Schema.Types.ObjectId,
+      ref:"GamesData"
 },
 })

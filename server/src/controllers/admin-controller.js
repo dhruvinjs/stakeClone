@@ -108,6 +108,7 @@ const logOutAdmin=asyncHandler(async(req,res)=>{
     .json(new ApiRes(200,{},'Admin logged Out'))
 
 })
+// const 
 
 export {
     regAdmin,

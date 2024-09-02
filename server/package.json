@@ -17,10 +17,12 @@
     "cookie": "^0.6.0",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
+    "crypto-js": "^4.2.0",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.4.5",
-    "nodemailer": "^6.9.14"
+    "nodemailer": "^6.9.14",
+    "random-js": "^2.1.0"
   }
 }

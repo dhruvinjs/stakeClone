@@ -10,6 +10,7 @@ import jwt from "jsonwebtoken";
 import { GamesData } from "../models/games-data-models.js";
 import { json } from "express";
 import { Game } from "../models/games-models.js";
+import { guessNumGenerator } from "./game-controller.js";
 
 
 
@@ -363,8 +364,8 @@ const deductLostAmt=asyncHandler(async(req,res)=>{
           })
           
           //betunits will take the bet amt of user and basically generate a game token (async function)
-          const betUnits=asyncHandler(async(req,res)=>{
-            const user=await User.findById(req.user._id);
+  const betUnits=asyncHandler(async(req,res)=>{
+  const user=await User.findById(req.user._id);
   if(!user){
     throw new ApiError(404,"User not found");
   }
@@ -380,6 +381,7 @@ const deductLostAmt=asyncHandler(async(req,res)=>{
     }
     
     const {gameToken,refreshToken}=await generateGameandrefreshToken(game._id)
+    const{num}=await guessNumGenerator()
     if (!gameToken ){
       throw new ApiError(500, "Failed to return tokens");
     }
@@ -387,14 +389,9 @@ const deductLostAmt=asyncHandler(async(req,res)=>{
       httpOnly:true,
       secure:true
     }
+
     game.betted+=finalAmt;
-    game.dailybets.push(
-      {
-        user:user._id, //founded the user now alloacting the daily bets
-        amt:amt,
-        date:new Date(),
-      }
-    )
+    
     user.invested=user.invested-finalAmt;
     user.betted+=finalAmt;
     await user.save({
@@ -408,11 +405,17 @@ const deductLostAmt=asyncHandler(async(req,res)=>{
     .json({
       invested:user.invested,
       gameToken:gameToken,
-      message:"gametoken generated successfully "
+      message:"gametoken generated successfully ",
+      num:num
     })
     
   })
   
+// const betUnits=asyncHandler(async(req,res)=>{
+  
+// })
+
+
   //async fucntion which will generate a token for game
   //No asynchandler used because it is not returning a promise
   const generateGameandrefreshToken = async function(gameId) {

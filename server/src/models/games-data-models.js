@@ -8,9 +8,14 @@ gameid: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Game"  // Ensure this matches the exact model name
   },
-id:{
-  type:Number
-},
+    id:{
+      type:Number,
+  
+    },
+  gameName: {
+    type: String,
+    required: true
+  },
 profit:{
   type:Number,
   required:true,
@@ -58,7 +63,7 @@ return jsonwebtoken.sign(
 }
 ,process.env.ACCESS_TOKEN_SECRET,
 {
-  expiresIn:"1h",
+  expiresIn:"2h",
 },
 )
 }
